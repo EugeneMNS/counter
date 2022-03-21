@@ -1,21 +1,21 @@
 import React from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {counterReducer, decrementCountAC, DefaultStateType, incrementCountAC, setCountAC} from "./state/reducer";
 
-export function  Counter() {
-  const [count, setCount] = React.useState(0);
-  const handleIncrement =()=>{
-      setCount(prevCount=>prevCount +1)
-  };
-  const handleDecrement = () => {
-      setCount(prevCount => prevCount - 1)
-  }
+
+export function Counter() {
+    const  dispatch = useDispatch()
+    const count = useSelector<DefaultStateType, any>(state => state.count)
+    console.log(count,'count')
   return (
       <div>
           <div>
-              <button onClick={handleDecrement}>-</button>
-              <h5> Count is {count}</h5>
-              <button onClick={handleIncrement}>+</button>
+              <h5>{`Count is ${count.count}`}</h5>
+              <button onClick={()=> dispatch(decrementCountAC(count.count))}>-</button>
+
+              <button onClick={() =>dispatch(incrementCountAC(count.count))}>+</button>
           </div>
-          <button onClick={()=>setCount(0)}>Reset</button>
+          <button onClick={()=> dispatch(setCountAC(0))}>Reset</button>
       </div>
   )
 }
